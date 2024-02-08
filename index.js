@@ -33,6 +33,7 @@ app.listen(process.env.PORT,()=>{
 // });
 
 app.get('/webhook',  (req, res) => {
+    console.log(req.query, "req.query");
     if (
       req.query['hub.mode'] == 'subscribe' &&
       req.query['hub.verify_token'] == mytoken
