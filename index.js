@@ -13,10 +13,10 @@ app.listen(process.env.PORT,()=>{
 });
 
 app.get("/webhook",(req,res)=>{
-    console.log("inside webhook")
-   let mode=req.query["hub.mode"];
-   let challange=req.query["hub.challenge"];
-   let token=req.query["hub.verify_token"];
+    let mode=req.query["hub.mode"];
+    let challange=req.query["hub.challenge"];
+    let token=req.query["hub.verify_token"];
+    console.log("inside webhook", mode , token , challange)
 
 
     if(mode && token){
@@ -31,6 +31,7 @@ app.get("/webhook",(req,res)=>{
     }
 
 });
+
 
 app.post("/webhook",(req,res)=>{ 
 
