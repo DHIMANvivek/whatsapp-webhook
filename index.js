@@ -12,24 +12,49 @@ app.listen(process.env.PORT,()=>{
     console.log("webhook is listening", process.env.PORT);
 });
 
-app.get("/webhook",(req,res)=>{
-    let mode=req.query["hub.mode"];
-    let challange=req.query["hub.challenge"];
-    let token=req.query["hub.verify_token"];
+// app.get("/webhook",(req,res)=>{
+//     let mode=req.query["hub.mode"];
+//     let challange=req.query["hub.challenge"];
+//     let token=req.query["hub.verify_token"];
+//     console.log("inside webhook", mode , token , challange)
+
+
+//     if(mode && token){
+//         console.log("inside mode and token");
+//         if(mode==="subscribe" && token===mytoken){
+//             console.log("inside subscribe and token");
+//             res.status(200).send(challange);
+//         }else{
+//             res.status(403);
+//         }
+
+//     }
+
+// });
+
+app.get('/webhook', (req, res) => {
+    let VERIFY_TOKEN = "vivek"
+
+    let mode= req.query['hub.mode'];
+    let token=req.query['hub.verify_token'];
+    let challange = req.query['hub.challange'];
     console.log("inside webhook", mode , token , challange)
-
-
-    if(mode && token){
-        console.log("inside mode and token");
-        if(mode==="subscribe" && token===mytoken){
+        if (req.query['hub.verify_token'] === VERIFY_TOKEN) {
             console.log("inside subscribe and token");
-            res.status(200).send(challange);
-        }else{
-            res.status(403);
-        }
-
+        res.send(req.query['hub.challenge']);
+    } else {
+        res.send('Invalid verify token');
     }
 
+    if(mode && token){
+        if(mode==='subscribe' && token === VERIFY_TOKEN){
+
+            console.log('WEBHOOK_VERIFIED');
+            res.status(200).send(challange);
+        }else{
+            res.sendStatus(403);
+        }
+    }
 });
 
 
