@@ -6,7 +6,6 @@ require('dotenv').config();
 const app=express().use(body_parser.json());
 
 const token=process.env.TOKEN;
-const mytoken=process.env.MYTOKEN;
 
 app.listen(process.env.PORT,()=>{
     console.log("webhook is listening", process.env.PORT);
@@ -14,6 +13,7 @@ app.listen(process.env.PORT,()=>{
 
 app.get("/webhook", (req, res) => {
     const verify_token = process.env.MYTOKEN;
+    console.log("inside get webhook")
     let mode = req.query["hub.mode"];
     let token = req.query["hub.verify_token"];
     let challenge = req.query["hub.challenge"];
@@ -56,7 +56,7 @@ app.post("/webhook",(req,res)=>{
                   messaging_product: "whatsapp",
                   to: from,
                   text: {
-                    body: "Hi.. I'm Vivek Dhiman, your message is " + msg_body
+                    body: "your message is " + msg_body
                   }
                 },
                 headers: {
@@ -73,9 +73,7 @@ app.post("/webhook",(req,res)=>{
             }else{
                 res.sendStatus(404);
             }
-
     }
-
 });
 
 app.get("/",(req,res)=>{
