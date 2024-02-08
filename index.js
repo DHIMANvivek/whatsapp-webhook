@@ -33,6 +33,8 @@ app.listen(process.env.PORT,()=>{
 // });
 
 app.get("/webhook", (req, res) => {
+
+    console.log(mytoken , "mytoken is")
   
     // Parse the query params
       let mode = req.query["hub.mode"];
@@ -41,6 +43,7 @@ app.get("/webhook", (req, res) => {
     
       // Check if a token and mode is in the query string of the request
       if (mode && token) {
+        console.log("inside mode and token")
         // Check the mode and token sent is correct
         if (mode === "subscribe" && token === mytoken) {
           // Respond with the challenge token from the request
@@ -52,7 +55,6 @@ app.get("/webhook", (req, res) => {
         }
       }
     });
-
 
 app.post("/webhook",(req,res)=>{ 
 
