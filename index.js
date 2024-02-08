@@ -32,19 +32,20 @@ app.listen(process.env.PORT,()=>{
 
 // });
 
-app.get('/webhook',  (req, res) => {
-
-    console.log(req.query, "req.query");
-    
-    if (
-      req.query['hub.mode'] == 'subscribe' &&
-      req.query['hub.verify_token'] == mytoken
-    ) {
-      res.send(req.query['hub.challenge']);
-    } else {
-      res.sendStatus(400);
+app.get("/webhook", (req, res) => {
+    let mode = req.query["hub.mode"];
+    let token = req.query["hub.verify_token"];
+    let challenge = req.query["hub.challenge"];
+  
+    if (mode && token) {
+      if (mode === "subscribe" && token === config.verifyToken) {
+        console.log("WEBHOOK_VERIFIED");
+        res.status(200).send(challenge);
+      } else {
+        res.sendStatus(403);
+      }
     }
-   })
+  });
 app.post("/webhook",(req,res)=>{ 
 
     let body_param=req.body;
