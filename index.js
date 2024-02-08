@@ -20,11 +20,11 @@ app.get("/webhook",(req,res)=>{
 
     if(mode && token){
 
-        if(mode==="subscribe" && token===mytoken){
+        // if(mode==="subscribe" && token===mytoken){
             res.status(200).send(challange);
-        }else{
-            res.status(403);
-        }
+        // }else{
+        //     res.status(403);
+        // }
 
     }
 
