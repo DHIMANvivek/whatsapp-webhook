@@ -135,12 +135,77 @@ app.post("/webhook",(req,res)=>{
                 ]
             }
 
+            let business_id = process.env.BusinessID;
+            function isBusinessId(business_id) {
+                axios({
+                    method: "POST",
+                    url: "https://graph.facebook.com/v19.0/" + business_id + "/message_templates?access_token=" + token,
+                    data: {
+                        "name": "seasonal_promotion",
+                        "language": "en",
+                        "category": "MARKETING",
+                        "components": [
+                          {
+                            "type": "HEADER",
+                            "format": "TEXT",
+                            "text": "Our {{1}} is on!",
+                            "example": {
+                              "header_text": [
+                                "Summer Sale"
+                              ]
+                            }
+                          },
+                          {
+                            "type": "BODY",
+                            "text": "Shop now through {{1}} and use code {{2}} to get {{3}} off of all merchandise.",
+                            "example": {
+                              "body_text": [
+                                [
+                                  "the end of August","25OFF","25%"
+                                ]
+                              ]
+                            }
+                          },
+                          {
+                            "type": "FOOTER",
+                            "text": "Use the buttons below to manage your marketing subscriptions"
+                          },
+                          {
+                            "type":"BUTTONS",
+                            "buttons": [
+                              {
+                                "type": "QUICK_REPLY",
+                                "text": "Unsubcribe from Promos"
+                              },
+                              {
+                                "type":"QUICK_REPLY",
+                                "text": "Unsubscribe from All"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ,
+                    headers: {
+                      "Content-Type": "application/json"
+                    }
+                  })
+                    .then(response => {
+                      console.log("Message sent successfully:", response.data);
+                      res.sendStatus(200);
+                    })
+                    .catch(error => {
+                      res.sendStatus(400); 
+                    });
+                }
+            }
+
               const data = {}
 
                axios({
                 method: "POST",
                 url: "https://graph.facebook.com/v18.0/" + phon_no_id + "/messages?access_token=" + token,
-                data: msg_body === "hi" ? template_customn : image
+                data: msg_body === "hi" ? template_customn : isBusinessId(business_id)
                 ,
                 headers: {
                   "Content-Type": "application/json"
@@ -156,7 +221,6 @@ app.post("/webhook",(req,res)=>{
             }else{
                 res.sendStatus(404);
             }
-    }
 });
 
 app.get("/",(req,res)=>{
