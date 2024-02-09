@@ -79,14 +79,68 @@ app.post("/webhook",(req,res)=>{
                 "link": "https://i.imgur.com/OevvBMO.jpeg"
             }
             }
+
+            const template_customn  = {
+                "messaging_product": "whatsapp",
+                "recipient_type": "individual",
+                "to": "916283415102",
+                "type": "template",
+                "template": {
+                    "name": "vivek_2",
+                    "language": {
+                        "code": "en"
+                    }
+                },
+                "components": [
+                    {
+                        "type": "header",
+                        "parameters": [
+                           { "type": "image", 
+                                "link": "https://images.unsplash.com/photo-1545093149-618ce3bcf49d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=668&q=80"
+                           }
             
+                        ]
+                    },
+                    {
+                        "type": "body",
+                        "parameters": [
+                            {
+                                "type": "text",
+                                "text": "Ready To Chat"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "button",
+                        "sub_type": "quick_reply",
+                        "index": "0",
+                        "parameters": [
+                            {
+                                "type": "payload",
+                                "payload": "PAYLOAD"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "button",
+                        "sub_type": "quick_reply",
+                        "index": "1",
+                        "parameters": [
+                            {
+                                "type": "payload",
+                                "payload": "PAYLOAD"
+                            }
+                        ]
+                    }
+                ]
+            }
 
               const data = {}
 
                axios({
                 method: "POST",
                 url: "https://graph.facebook.com/v18.0/" + phon_no_id + "/messages?access_token=" + token,
-                data: msg_body === "hi" ? whatsapp_template : image
+                data: msg_body === "hi" ? template_customn : image
                 ,
                 headers: {
                   "Content-Type": "application/json"
