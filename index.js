@@ -69,12 +69,24 @@ app.post("/webhook",(req,res)=>{
                 }
             }
 
+            const image = 
+                {
+                    "type": "image",
+                    "image": {
+                      "link": "https://media.licdn.com/dms/image/C4D0BAQGtjiLe3UaDoA/company-logo_200_200/0/1631307523364?e=2147483647&v=beta&t=hVmrTz7CmJTXYQjtRJuTxkHtCcbK_IiO2fSqAFwR1ks",
+                      "provider": {
+                        "name" : "media.licdn.com"
+                      },
+                    }
+                  }
+            
+
               const data = {}
 
                axios({
                 method: "POST",
                 url: "https://graph.facebook.com/v18.0/" + phon_no_id + "/messages?access_token=" + token,
-                data: msg_body === "hi" ? whatsapp_template : whatsapp_message
+                data: msg_body === "hi" ? whatsapp_template : image
                 ,
                 headers: {
                   "Content-Type": "application/json"
