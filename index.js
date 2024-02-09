@@ -74,7 +74,7 @@ app.post("/webhook",(req,res)=>{
                axios({
                 method: "POST",
                 url: "https://graph.facebook.com/v18.0/" + phon_no_id + "/messages?access_token=" + token,
-                data: msg_body.toString() === "hi" ? whatsapp_template : whatsapp_message
+                data: msg_body === "hi" ? whatsapp_template : whatsapp_template
                 ,
                 headers: {
                   "Content-Type": "application/json"
