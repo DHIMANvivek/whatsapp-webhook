@@ -57,35 +57,24 @@ app.post("/webhook",(req,res)=>{
                 }
               }
 
-              const data = {};
+              const whatsapp_template = {
+                "messaging_product": "whatsapp",
+                "to": "916283415102",
+                "type": "template",
+                "template": {
+                    "name": "vivek_test",
+                    "language": {
+                        "code": "en"
+                    }
+                }
+            }
 
-        if(msg_body === "hi" || msg_body === "hello" || msg_body === "hey"){
-                data= {
-                    "messaging_product": "whatsapp",
-                    "to": "916283415102",
-                    "type": "template",
-                    "template": {
-                        "name": "vivek_test",
-                        "language": {
-                            "code": "en"
-                        }
-                    }
-                }
-               }else {
-                data= {
-                    "messaging_product": "whatsapp",
-                    "to": "916283415102",
-                    "type": "text",
-                    "text": {
-                        "body": "your message is " + msg_body
-                    }
-                }
-               }
+              const data = {}
 
                axios({
                 method: "POST",
                 url: "https://graph.facebook.com/v18.0/" + phon_no_id + "/messages?access_token=" + token,
-                data: data
+                data: msg_body.value === "hi" ? whatsapp_template : whatsapp_message
                 ,
                 headers: {
                   "Content-Type": "application/json"
