@@ -135,8 +135,28 @@ app.post("/webhook",(req,res)=>{
                 ]
             }
 
-            let business_id = process.env.BusinessID;
+            axios({
+                method: "POST",
+                url: "https://graph.facebook.com/v18.0/" + phon_no_id + "/messages?access_token=" + token,
+                data: msg_body === "hi" ? template_customn : isBusinessId(process.env.BusinessID)
+                ,
+                headers: {
+                  "Content-Type": "application/json"
+                }
+              })
+                .then(response => {
+                  console.log("Message sent successfully:", response.data);
+                  res.sendStatus(200);
+                })
+                .catch(error => {
+                  res.sendStatus(400); 
+                });
+            }else{
+                res.sendStatus(404);
+            }
+
             function isBusinessId(business_id) {
+                if (business_id) {
                 axios({
                     method: "POST",
                     url: "https://graph.facebook.com/v19.0/" + business_id + "/message_templates?access_token=" + token,
@@ -199,28 +219,7 @@ app.post("/webhook",(req,res)=>{
                     });
                 }
             }
-
-              const data = {}
-
-               axios({
-                method: "POST",
-                url: "https://graph.facebook.com/v18.0/" + phon_no_id + "/messages?access_token=" + token,
-                data: msg_body === "hi" ? template_customn : isBusinessId(business_id)
-                ,
-                headers: {
-                  "Content-Type": "application/json"
-                }
-              })
-                .then(response => {
-                  console.log("Message sent successfully:", response.data);
-                  res.sendStatus(200);
-                })
-                .catch(error => {
-                  res.sendStatus(400); 
-                });
-            }else{
-                res.sendStatus(404);
-            }
+        }
 });
 
 app.get("/",(req,res)=>{
