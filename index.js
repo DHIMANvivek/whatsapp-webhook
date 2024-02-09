@@ -47,7 +47,7 @@ app.post("/webhook",(req,res)=>{
 
                console.log("phone number "+phon_no_id);
                console.log("from "+from);
-               console.log("boady param "+msg_body , typeof msg_body);
+            //    console.log("boady param "+msg_body , typeof msg_body);
 
                const whatsapp_message = {
                 messaging_product: "whatsapp",
@@ -138,7 +138,7 @@ app.post("/webhook",(req,res)=>{
             axios({
                 method: "POST",
                 url: "https://graph.facebook.com/v18.0/" + phon_no_id + "/messages?access_token=" + token,
-                data: msg_body === "hi" ? template_customn : template_customn
+                data: msg_body === "hi" ? whatsapp_message : whatsapp_message
                 ,
                 headers: {
                   "Content-Type": "application/json"
@@ -155,70 +155,70 @@ app.post("/webhook",(req,res)=>{
                 res.sendStatus(404);
             }
 
-            function isBusinessId(business_id) {
-                if (business_id) {
-                axios({
-                    method: "POST",
-                    url: "https://graph.facebook.com/v19.0/" + business_id + "/message_templates?access_token=" + token,
-                    data: {
-                        "name": "seasonal_promotion",
-                        "language": "en",
-                        "category": "MARKETING",
-                        "components": [
-                          {
-                            "type": "HEADER",
-                            "format": "TEXT",
-                            "text": "Our {{1}} is on!",
-                            "example": {
-                              "header_text": [
-                                "Summer Sale"
-                              ]
-                            }
-                          },
-                          {
-                            "type": "BODY",
-                            "text": "Shop now through {{1}} and use code {{2}} to get {{3}} off of all merchandise.",
-                            "example": {
-                              "body_text": [
-                                [
-                                  "the end of August","25OFF","25%"
-                                ]
-                              ]
-                            }
-                          },
-                          {
-                            "type": "FOOTER",
-                            "text": "Use the buttons below to manage your marketing subscriptions"
-                          },
-                          {
-                            "type":"BUTTONS",
-                            "buttons": [
-                              {
-                                "type": "QUICK_REPLY",
-                                "text": "Unsubcribe from Promos"
-                              },
-                              {
-                                "type":"QUICK_REPLY",
-                                "text": "Unsubscribe from All"
-                              }
-                            ]
-                          }
-                        ]
-                      }
-                    ,
-                    headers: {
-                      "Content-Type": "application/json"
-                    }
-                  })
-                    .then(response => {
-                      console.log("Message sent successfully:", response.data);
-                      res.sendStatus(200);
-                    })
-                    .catch(error => {
-                      res.sendStatus(400); 
-                    });
-                }
-            }
+            // function isBusinessId(business_id) {
+            //     if (business_id) {
+            //     axios({
+            //         method: "POST",
+            //         url: "https://graph.facebook.com/v19.0/" + business_id + "/message_templates?access_token=" + token,
+            //         data: {
+            //             "name": "seasonal_promotion",
+            //             "language": "en",
+            //             "category": "MARKETING",
+            //             "components": [
+            //               {
+            //                 "type": "HEADER",
+            //                 "format": "TEXT",
+            //                 "text": "Our {{1}} is on!",
+            //                 "example": {
+            //                   "header_text": [
+            //                     "Summer Sale"
+            //                   ]
+            //                 }
+            //               },
+            //               {
+            //                 "type": "BODY",
+            //                 "text": "Shop now through {{1}} and use code {{2}} to get {{3}} off of all merchandise.",
+            //                 "example": {
+            //                   "body_text": [
+            //                     [
+            //                       "the end of August","25OFF","25%"
+            //                     ]
+            //                   ]
+            //                 }
+            //               },
+            //               {
+            //                 "type": "FOOTER",
+            //                 "text": "Use the buttons below to manage your marketing subscriptions"
+            //               },
+            //               {
+            //                 "type":"BUTTONS",
+            //                 "buttons": [
+            //                   {
+            //                     "type": "QUICK_REPLY",
+            //                     "text": "Unsubcribe from Promos"
+            //                   },
+            //                   {
+            //                     "type":"QUICK_REPLY",
+            //                     "text": "Unsubscribe from All"
+            //                   }
+            //                 ]
+            //               }
+            //             ]
+            //           }
+            //         ,
+            //         headers: {
+            //           "Content-Type": "application/json"
+            //         }
+            //       })
+            //         .then(response => {
+            //           console.log("Message sent successfully:", response.data);
+            //           res.sendStatus(200);
+            //         })
+            //         .catch(error => {
+            //           res.sendStatus(400); 
+            //         });
+            //     }
+            // }
         }
 });
 
