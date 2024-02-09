@@ -59,7 +59,7 @@ app.post("/webhook",(req,res)=>{
 
               const data = {};
 
-               if(msg_body.includes("hi")){
+        if(msg_body === "hi" || msg_body === "hello" || msg_body === "hey"){
                 data= {
                     "messaging_product": "whatsapp",
                     "to": "916283415102",
