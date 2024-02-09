@@ -73,9 +73,9 @@ app.post("/webhook",(req,res)=>{
                 {
                     "type": "image",
                     "image": {
-                      "link": "https://media.licdn.com/dms/image/C4D0BAQGtjiLe3UaDoA/company-logo_200_200/0/1631307523364?e=2147483647&v=beta&t=hVmrTz7CmJTXYQjtRJuTxkHtCcbK_IiO2fSqAFwR1ks",
+                      "link": "https://images.freeimages.com/images/large-previews/bc4/curious-bird-1-1374322.jpg?fmt=webp&h=350",
                       "provider": {
-                        "name" : "media.licdn.com"
+                        "name" : "https://images.freeimages.com/images/large-previews/bc4/curious-bird-1-1374322.jpg?fmt=webp&h=350"
                       },
                     }
                   }
