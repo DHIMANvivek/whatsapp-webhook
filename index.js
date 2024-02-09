@@ -28,7 +28,7 @@ app.get("/webhook", (req, res) => {
     }
   });
 
-app.post("/webhook",(req,res)=>{ 
+app.post("/webhook",(req,res)=>{
 
     let body_param=req.body;
 
@@ -49,16 +49,33 @@ app.post("/webhook",(req,res)=>{
                console.log("from "+from);
                console.log("boady param "+msg_body);
 
+               const whatsapp_message = {
+                messaging_product: "whatsapp",
+                to: from,
+                text: {
+                  body: "your message is " + msg_body
+                }
+              }
+
+              const whatsapp_template = {
+                "messaging_product": "whatsapp",
+                "to": "916283415102",
+                "type": "template",
+                "template": {
+                    "name": "vivek_test",
+                    "language": {
+                        "code": "en"
+                    }
+                }
+            }
+
+              const data = {}
+
                axios({
                 method: "POST",
                 url: "https://graph.facebook.com/v18.0/" + phon_no_id + "/messages?access_token=" + token,
-                data: {
-                  messaging_product: "whatsapp",
-                  to: from,
-                  text: {
-                    body: "your message is " + msg_body
-                  }
-                },
+                data: whatsapp_template
+                ,
                 headers: {
                   "Content-Type": "application/json"
                 }
