@@ -70,15 +70,15 @@ app.post("/webhook",(req,res)=>{
             }
 
             const image = 
-                {
-                    "type": "image",
-                    "image": {
-                      "link": "https://images.freeimages.com/images/large-previews/bc4/curious-bird-1-1374322.jpg?fmt=webp&h=350",
-                      "provider": {
-                        "name" : "https://images.freeimages.com/images/large-previews/bc4/curious-bird-1-1374322.jpg?fmt=webp&h=350"
-                      },
-                    }
-                  }
+            {
+                "messaging_product": "whatsapp",
+                "recipient_type": "individual",
+            "to": "916283415102",
+            "type": "image",
+            "image": {
+                "link": "https://i.imgur.com/OevvBMO.jpeg"
+            }
+            }
             
 
               const data = {}
