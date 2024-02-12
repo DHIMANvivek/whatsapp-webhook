@@ -106,32 +106,32 @@ const whatsapp_template = {
   }
 }
 
-const sendTemplate = {
-    "to": "916283415102",
-    "recipient_type": "individual",
-    "type": "template",
-    "template": {
-        "language": {
-            "policy": "deterministic",
-            "code": "en"
-        },
-        "name": "asdasdas",
-        "components": [
-            {
-                "type":"BODY",
-                "text":"Hello {{1}}\n\nThis is a test body {{2}}  ",
-                "example":{
-                    "body_text":[
-                        [
-                            "bodyVariable1",
-                            "bodyVariable2"
-                        ]
-                    ]
-                }
-            }
-        ]
-    }
-}
+// const sendTemplate = {
+//     "to": "916283415102",
+//     "recipient_type": "individual",
+//     "type": "template",
+//     "template": {
+//         "language": {
+//             "policy": "deterministic",
+//             "code": "en"
+//         },
+//         "name": "asdasdas",
+//         "components": [
+//             {
+//                 "type":"BODY",
+//                 "text":"Hello {{1}}\n\nThis is a test body {{2}}  ",
+//                 "example":{
+//                     "body_text":[
+//                         [
+//                             "bodyVariable1",
+//                             "bodyVariable2"
+//                         ]
+//                     ]
+//                 }
+//             }
+//         ]
+//     }
+// }
 
 const image = 
 {
@@ -254,6 +254,33 @@ app.post("/webhook",(req,res)=>{
               text: {
                 body: "your message is " + msg_body
               }
+            }
+
+            const sendTemplate = {
+                "to": from,
+                "recipient_type": "individual",
+                "type": "template",
+                "template": {
+                    "language": {
+                        "policy": "deterministic",
+                        "code": "en"
+                    },
+                    "name": "asdasdas",
+                    "components": [
+                        {
+                            "type":"BODY",
+                            "text":"Hello {{1}}\n\nThis is a test body {{2}}  ",
+                            "example":{
+                                "body_text":[
+                                    [
+                                        "bodyVariable1",
+                                        "bodyVariable2"
+                                    ]
+                                ]
+                            }
+                        }
+                    ]
+                }
             }
 
              console.log("phone number "+phon_no_id);
