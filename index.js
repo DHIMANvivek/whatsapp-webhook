@@ -257,7 +257,7 @@ app.post("/webhook",(req,res)=>{
             }
 
             const sendTemplate = {
-                "to": from,
+                "to": "916283415102",
                 "recipient_type": "individual",
                 "type": "template",
                 "template": {
@@ -265,21 +265,7 @@ app.post("/webhook",(req,res)=>{
                         "policy": "deterministic",
                         "code": "en"
                     },
-                    "name": "asdasdas",
-                    "components": [
-                        {
-                            "type":"BODY",
-                            "text":"Hello {{1}}\n\nThis is a test body {{2}}  ",
-                            "example":{
-                                "body_text":[
-                                    [
-                                        "bodyVariable1",
-                                        "bodyVariable2"
-                                    ]
-                                ]
-                            }
-                        }
-                    ]
+                    "name": "asdasdas"
                 }
             }
 
@@ -290,7 +276,7 @@ app.post("/webhook",(req,res)=>{
              axios({
               method: "POST",
               url: "https://graph.facebook.com/v18.0/" + phon_no_id + "/messages?access_token=" + token,
-              data: msg_body === "hi" ? sendTemplate : sendTemplate,
+              data: msg_body === "hi" ? whatsapp_template : whatsapp_message,
               headers: {
                 "Content-Type": "application/json"
               }
