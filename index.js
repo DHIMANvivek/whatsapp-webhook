@@ -106,6 +106,33 @@ const whatsapp_template = {
   }
 }
 
+const sendTemplate = {
+    "to": "916283415102",
+    "recipient_type": "individual",
+    "type": "template",
+    "template": {
+        "language": {
+            "policy": "deterministic",
+            "code": "en"
+        },
+        "name": "asdasdas",
+        "components": [
+            {
+                "type":"BODY",
+                "text":"Hello {{1}}\n\nThis is a test body {{2}}  ",
+                "example":{
+                    "body_text":[
+                        [
+                            "bodyVariable1",
+                            "bodyVariable2"
+                        ]
+                    ]
+                }
+            }
+        ]
+    }
+}
+
 const image = 
 {
   "messaging_product": "whatsapp",
@@ -236,7 +263,7 @@ app.post("/webhook",(req,res)=>{
              axios({
               method: "POST",
               url: "https://graph.facebook.com/v18.0/" + phon_no_id + "/messages?access_token=" + token,
-              data: msg_body === "hi" ? whatsapp_message : whatsapp_message,
+              data: msg_body === "hi" ? sendTemplate : whatsapp_message,
               headers: {
                 "Content-Type": "application/json"
               }
