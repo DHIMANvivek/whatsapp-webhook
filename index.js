@@ -67,31 +67,11 @@ const template_customn_2  = {
   "to": "916283415102",
   "type": "template",
   "template": {
-      "name": "final_sample",
+      "name": "vivek_test",
       "language": {
           "code": "en"
       }
-  },
-  // "components": [
-  //   {
-  //     "type": "header",
-  //     "parameters": [
-  //       {
-  //         "type": "text",
-  //         "text": "TEXT_STRING"
-  //       }
-  //     ]
-  //   },
-  //   {
-  //     "type": "body",
-  //     "parameters": [
-  //       {
-  //         "type": "text",
-  //         "text": "shop now through TEXT_STRING and use code TEXT_STRING to get TEXT_STRING off of all merchandise."
-  //       }
-  //     ]
-  //   }
-  // ],
+  }
 }
 
 const whatsapp_template = {
@@ -99,39 +79,38 @@ const whatsapp_template = {
   "to": "916283415102",
   "type": "template",
   "template": {
-      "name": "greate",
+      "name": "vivek_test2",
       "language": {
           "code": "en"
       }
   }
 }
 
-// const sendTemplate = {
-//     "to": "916283415102",
-//     "recipient_type": "individual",
-//     "type": "template",
-//     "template": {
-//         "language": {
-//             "policy": "deterministic",
-//             "code": "en"
-//         },
-//         "name": "asdasdas",
-//         "components": [
-//             {
-//                 "type":"BODY",
-//                 "text":"Hello {{1}}\n\nThis is a test body {{2}}  ",
-//                 "example":{
-//                     "body_text":[
-//                         [
-//                             "bodyVariable1",
-//                             "bodyVariable2"
-//                         ]
-//                     ]
-//                 }
-//             }
-//         ]
-//     }
-// }
+const restart = {
+  "messaging_product": "whatsapp",
+  "to": "916283415102",
+  "type": "template",
+  "template": {
+    "name": "greatti",
+    "language": {
+      "code": "en"
+    },
+    "components": [
+    {
+      "type": "HEADER",
+      "parameters": [
+        {
+          "type": "text",
+          "text": "superHero"
+        }
+      ]
+    }
+  ]
+}
+  }
+  
+
+
 
 const image = 
 {
@@ -256,19 +235,6 @@ app.post("/webhook",(req,res)=>{
               }
             }
 
-            const sendTemplate = {
-                "to": "916283415102",
-                "recipient_type": "individual",
-                "type": "template",
-                "template": {
-                    "language": {
-                        "policy": "deterministic",
-                        "code": "en"
-                    },
-                    "name": "asdasdas"
-                }
-            }
-
              console.log("phone number "+phon_no_id);
              console.log("from "+from);
              console.log("boady param "+msg_body);
@@ -276,7 +242,7 @@ app.post("/webhook",(req,res)=>{
              axios({
               method: "POST",
               url: "https://graph.facebook.com/v18.0/" + phon_no_id + "/messages?access_token=" + token,
-              data: msg_body === "hi" ? whatsapp_template : whatsapp_message,
+              data: msg_body === "hi" ? restart : whatsapp_message,
               headers: {
                 "Content-Type": "application/json"
               }
