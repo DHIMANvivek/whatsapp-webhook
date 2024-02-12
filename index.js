@@ -143,73 +143,7 @@ app.get("/webhook", (req, res) => {
       }
     }
   });
-
-  async function createTemplate() {
-    try {
-        const templateData = {
-          "name": "seasonal_promotioenq",
-          "language": "en",
-          "category": "MARKETING",
-          "components": [
-            {
-              "type": "HEADER",
-              "format": "TEXT",
-              "text": "Our {{1}} is on!",
-              "example": {
-                "header_text": [
-                  "Summer Sale"
-                ]
-              }
-            },
-            {
-              "type": "BODY",
-              "text": "Shop now through {{1}} and use code {{2}} to get {{3}} off of all merchandise.",
-              "example": {
-                "body_text": [
-                  [
-                    "the end of August","25OFF","25%"
-                  ]
-                ]
-              }
-            },
-            {
-              "type": "FOOTER",
-              "text": "Use the buttons below to manage your marketing subscriptions"
-            },
-            {
-              "type":"BUTTONS",
-              "buttons": [
-                {
-                  "type": "QUICK_REPLY",
-                  "text": "Unsubcribe from Promos"
-                },
-                {
-                  "type":"QUICK_REPLY",
-                  "text": "Unsubscribe from All"
-                }
-              ]
-            }
-          ]
-        };
-
-        // Make Axios POST request
-        const response = await axios.post('https://graph.facebook.com/v18.0/180046158536495/message_templates', 
-            templateData
-        , {
-            params: {
-                access_token: token
-            }
-        });
-
-        console.log("Template created successfully:", response.data);
-    } catch (error) {
-        console.error("Error creating template:", error.response.data);
-    }
-}
-
-// Call the function to create the template
-// createTemplate();
-
+  
 app.post("/webhook",(req,res)=>{
 
     let body_param=req.body;

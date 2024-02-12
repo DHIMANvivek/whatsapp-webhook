@@ -32,39 +32,39 @@
       function createTemplate(templateName) {
         // Template data
         const templateData = {
-          "name": templateName,
-          "language": "en",
-          "category": "MARKETING",
-          "components": [
+          name: templateName,
+          language: "en",
+          category: "MARKETING",
+          components: [
             {
-              "type": "HEADER",
-              "format": "TEXT",
-              "text": "Our {{1}} is on!",
-              "example": {
-                "header_text": ["Summer Sale"],
+              type: "HEADER",
+              format: "TEXT",
+              text: "Our {{1}} is on!",
+              example: {
+                header_text: ["Summer Sale"],
               },
             },
             {
-              "type": "BODY",
-              "text": "Shop now through {{1}} and use code {{2}} to get {{3}} off of all merchandise.",
-              "example": {
-                "body_text": [["the end of August", "25OFF", "25%"]],
+              type: "BODY",
+              text: "Shop now {{1}} at the amazing",
+              example: {
+                body_text: ["great"],
               },
             },
             {
-              "type": "FOOTER",
-              "text": "Use the buttons below to manage your marketing subscriptions",
+              type: "FOOTER",
+              text: "Use the buttons below to manage your marketing subscriptions",
             },
             {
-              "type": "BUTTONS",
-              "buttons": [
+              type: "BUTTONS",
+              buttons: [
                 {
-                  "type": "QUICK_REPLY",
-                  "text": "Unsubcribe ",
+                  type: "QUICK_REPLY",
+                  text: "Unsubcribe ",
                 },
                 {
-                  "type": "QUICK_REPLY",
-                  "text": "Unsubscribe from All",
+                  type: "QUICK_REPLY",
+                  text: "Unsubscribe from All",
                 },
               ],
             },
