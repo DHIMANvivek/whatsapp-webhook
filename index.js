@@ -99,7 +99,7 @@ const whatsapp_template = {
   "to": "916283415102",
   "type": "template",
   "template": {
-      "name": "vivek_test",
+      "name": "greatgamer",
       "language": {
           "code": "en"
       }
