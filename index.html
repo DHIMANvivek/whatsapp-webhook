@@ -7,60 +7,198 @@
   </head>
   <body>
     <h1>Create Template</h1>
-    <form id="templateForm">
+    <!-- <form id="templateForm">
       <label for="templateName">Template Name:</label>
       <input type="text" id="templateName" name="templateName" required />
       <button type="submit" id="createTemplateBtn">Create Template</button>
+    </form> -->
+    <form id="templateForm">
+      <label for="templateName">Template Name:</label>
+      <input type="text" id="templateName" name="templateName" required />
+
+      <label for="headerText">Header Text:</label>
+      <input type="text" id="headerText" name="headerText" required />
+
+      <label for="bodyText">Body Text:</label>
+      <input type="text" id="bodyText" name="bodyText" required />
+
+      <label for="footerText">Footer Text:</label>
+      <input type="text" id="footerText" name="footerText" required />
+
+      <button type="submit" id="createTemplateBtn">Create Template</button>
+    </form>
+    <br />
+    <h1>Edit Template</h1>
+    <form id="edittemplateForm">
+      <label for="templateNames">Edit Template With Name & values:</label>
+      <input type="text" id="templateNames" name="templateNames" required />
+
+      <label for="headerTexts">Header Text:</label>
+      <input type="text" id="headerTexts" name="headerTexts" required />
+
+      <label for="bodyTexts">Body Text:</label>
+      <input type="text" id="bodyTexts" name="bodyTexts" required />
+
+      <label for="footerTexts">Footer Text:</label>
+      <input type="text" id="footerTexts" name="footerTexts" required />
+
+      <button type="submit" id="editTemplate">Edit Request</button>
+    </form>
+
+    <button id="addVariableBtn">Add Variable</button>
+
+    <h1>Get Id By Template Name</h1>
+    <form id="templateFormId">
+      <label for="templateNameForId">Template Name:</label>
+      <input
+        type="text"
+        id="templateNameForId"
+        name="templateNameForId"
+        required
+      />
+      <button type="submit" id="createTemplateBtn">Get Template Id</button>
     </form>
 
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script>
-      // Function to handle form submission
+      let templateId = 0;
+      let variableCount = 0;
       document
         .getElementById("templateForm")
         .addEventListener("submit", function (event) {
-          event.preventDefault(); // Prevent default form submission
+          event.preventDefault();
 
-          // Get the template name from the input field
           const templateName = document.getElementById("templateName").value;
+          const headerText = document.getElementById("headerText").value;
+          const bodyText = document.getElementById("bodyText").value;
+          const footerText = document.getElementById("footerText").value;
 
-          // Call the createTemplate function with the entered template name
-          createTemplate(templateName);
+          createTemplate(templateName, headerText, bodyText, footerText);
+          // editTemplate(templateName, headerText, bodyText, footerText);
+          // getTemplateId(templateName);
+          // createTemplate(templateName);
         });
 
-      // Function to create the template
-      function createTemplate(templateName) {
-        // Template data
-        const templateData = {
-          name: templateName,
-          language: "en",
-          category: "MARKETING",
+      document
+        .getElementById("edittemplateForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          const templateName = document.getElementById("templateNames").value;
+          const headerText = document.getElementById("headerTexts").value;
+          const bodyText = document.getElementById("bodyTexts").value;
+          const footerText = document.getElementById("footerTexts").value;
+
+          getTemplateId(templateName);
+          editTemplate(templateName, headerText, bodyText, footerText);
+          // createTemplate(templateName);
+        });
+
+      document
+        .getElementById("addVariableBtn")
+        .addEventListener("click", function () {
+          variableCount++;
+          const bodyTextInput = document.getElementById("bodyText");
+          bodyTextInput.value += `{{${variableCount}}}`;
+        });
+
+      document
+        .getElementById("templateFormId")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          const templateName =
+            document.getElementById("templateNameForId").value;
+          getTemplateId(templateName);
+        });
+
+      function getTemplateId(templateName) {
+        console.log(templateName, "template name is");
+        axios
+          .get(
+            "https://graph.facebook.com/v19.0/180046158536495/message_templates?fields=" +
+              `${templateName}` +
+              ",status,name",
+            {
+              params: {
+                access_token:
+                  "EAAURI1ZBPiYgBO9DxBwkMGEZAeeeYMr1adGdhm9LM7gXEXLRbMFTvIoPsgjXHoZBzLRZAAOcFJEXzZCjCCifDRp73cySLYDZCmMRWOB2HfjaUEdLEBVrOQs7IcYnZCjRZBXSqrQeFvZAS8UNg5uGIApbYd08Q53pEO27edfmysZCkHAGon3QWcCo8Nvota1nXul3zHFITv9R4NVHmbdbVQtu1xPQXz10Tu2n8ZA5XSWFIXo6ysZD",
+              },
+            }
+          )
+          .then((response) => {
+            const idofTemplate = response.data.data.map((item) =>
+              item.name == templateName ? item.id : "No template found"
+            );
+            console.log(
+              "Template ID:",
+              idofTemplate.filter((item) => item !== "No template found")
+            );
+            const filteredId = idofTemplate.filter(
+              (item) => item !== "No template found"
+            );
+            document.getElementById("templateNameForId").value = filteredId;
+            if (filteredId.length > 0) {
+              templateId = filteredId[0];
+            } else {
+              console.error("No template found with the specified name.");
+            }
+          })
+          .catch((error) => {
+            console.error(
+              "Error getting template ID:",
+              error.response.data.error
+            );
+          });
+      }
+
+      // Function to edit the template
+      async function editTemplate(
+        templateName,
+        headerText,
+        bodyText,
+        footerText
+      ) {
+        console.log(
+          templateName,
+          "template name is",
+          templateId,
+          "template id",
+          headerText,
+          "header text",
+          bodyText,
+          "body text",
+          footerText,
+          "footer text"
+        );
+        await getTemplateId(templateName);
+        const editTeplates = {
           components: [
             {
               type: "HEADER",
               format: "TEXT",
-              text: "Our {{1}} is on!",
+              text: headerText,
               example: {
-                header_text: ["Summer Sale"],
+                header_text: ["Summer Sales"],
               },
             },
             {
               type: "BODY",
-              text: "Shop now {{1}} at the amazing",
+              text: bodyText,
               example: {
-                body_text: ["great"],
+                body_text: ["Winter Sales"],
               },
             },
             {
               type: "FOOTER",
-              text: "Use the buttons below to manage your marketing subscriptions",
+              text: footerText,
             },
             {
               type: "BUTTONS",
               buttons: [
                 {
                   type: "QUICK_REPLY",
-                  text: "Unsubcribe ",
+                  text: "Unsubcribe",
                 },
                 {
                   type: "QUICK_REPLY",
@@ -71,7 +209,73 @@
           ],
         };
 
-        // Make POST request to create the template
+        axios
+          .post(
+            "https://graph.facebook.com/v18.0/" + `310438285362575`,
+            editTeplates,
+            {
+              params: {
+                access_token:
+                  "EAAURI1ZBPiYgBO9DxBwkMGEZAeeeYMr1adGdhm9LM7gXEXLRbMFTvIoPsgjXHoZBzLRZAAOcFJEXzZCjCCifDRp73cySLYDZCmMRWOB2HfjaUEdLEBVrOQs7IcYnZCjRZBXSqrQeFvZAS8UNg5uGIApbYd08Q53pEO27edfmysZCkHAGon3QWcCo8Nvota1nXul3zHFITv9R4NVHmbdbVQtu1xPQXz10Tu2n8ZA5XSWFIXo6ysZD",
+              },
+            }
+          )
+          .then((response) => {
+            console.log("editted successfully:", response.data);
+            let templateId = response.data.id;
+            // Optionally, do something after template creation
+          })
+          .catch((error) => {
+            console.error(
+              "Error creating template:",
+              error.response.data.error
+            );
+            // Handle error
+          });
+      }
+
+      // Function to create the template
+      function createTemplate(templateName, headerText, bodyText, footerText) {
+        const templateData = {
+          name: templateName,
+          language: "en",
+          category: "MARKETING",
+          components: [
+            {
+              type: "HEADER",
+              format: "TEXT",
+              text: headerText,
+              example: {
+                header_text: ["Summer Sale"],
+              },
+            },
+            {
+              type: "BODY",
+              text: bodyText,
+              example: {
+                body_text: ["Winter Sale"],
+              },
+            },
+            {
+              type: "FOOTER",
+              text: footerText,
+            },
+            {
+              type: "BUTTONS",
+              buttons: [
+                {
+                  type: "QUICK_REPLY",
+                  text: "Unsubcribe",
+                },
+                {
+                  type: "QUICK_REPLY",
+                  text: "Unsubscribe from All",
+                },
+              ],
+            },
+          ],
+        };
+
         axios
           .post(
             "https://graph.facebook.com/v18.0/180046158536495/message_templates",
@@ -79,11 +283,10 @@
             {
               params: {
                 access_token:
-                  "EAAURI1ZBPiYgBO26b3qloDhvIrbHV8dKWHhwl4GCXvPpENRV4mTQ1UAkYJywbt71qXDKBHqRxNXQNZBtCaGXzML3tDHptlA5xiwyyUG7oauyKSCV668hYv64aUIRZCzi8CU04bcZCKqhJvJuzJZAr4s0KZA4bS2jxpYvhrqYAPeZAeEjlY4dCw4Jvpoz3dse0fODlK0M2FQMNaT70C1YSa0xLiHfm6ZC7UQbe2JZB91fD0JYZD",
+                  "EAAURI1ZBPiYgBO9DxBwkMGEZAeeeYMr1adGdhm9LM7gXEXLRbMFTvIoPsgjXHoZBzLRZAAOcFJEXzZCjCCifDRp73cySLYDZCmMRWOB2HfjaUEdLEBVrOQs7IcYnZCjRZBXSqrQeFvZAS8UNg5uGIApbYd08Q53pEO27edfmysZCkHAGon3QWcCo8Nvota1nXul3zHFITv9R4NVHmbdbVQtu1xPQXz10Tu2n8ZA5XSWFIXo6ysZD",
               },
             }
           )
-
           .then((response) => {
             console.log("Template created successfully:", response.data);
             // Optionally, do something after template creation
